@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfb17jjxv5mp0"]
+
+[ext_resource type="Texture2D" uid="uid://x8261r36c27s" path="res://assets/items/arrows.png" id="1_77wuq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hv8g0"]
+
+[node name="Arrows" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_hv8g0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_77wuq")

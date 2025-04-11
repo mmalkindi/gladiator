@@ -1,0 +1,32 @@
+[gd_scene load_steps=8 format=3 uid="uid://clnr5g2s5vmh"]
+
+[ext_resource type="Texture2D" uid="uid://x08lj8qfhbhq" path="res://assets/levels/tile_ground_locker.png" id="2_3pwg4"]
+[ext_resource type="Texture2D" uid="uid://chfgohhw2vj8m" path="res://assets/levels/tile_wall_locker.png" id="2_kg2f8"]
+[ext_resource type="Texture2D" uid="uid://byyrwcty2f6ng" path="res://assets/levels/tile_ground_arena.png" id="3_b43bv"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4gw71"]
+texture = ExtResource("2_3pwg4")
+texture_region_size = Vector2i(20, 20)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kdfaq"]
+resource_name = "locker_wall"
+texture = ExtResource("2_kg2f8")
+texture_region_size = Vector2i(20, 20)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yk8pj"]
+texture = ExtResource("3_b43bv")
+texture_region_size = Vector2i(20, 20)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_40bep"]
+tile_size = Vector2i(20, 20)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_4gw71")
+sources/1 = SubResource("TileSetAtlasSource_kdfaq")
+sources/2 = SubResource("TileSetAtlasSource_yk8pj")
+
+[node name="LevelGeometry" type="TileMapLayer"]
+tile_set = SubResource("TileSet_40bep")

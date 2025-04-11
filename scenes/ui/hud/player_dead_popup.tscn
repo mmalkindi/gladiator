@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbbdxfstadmtk"]
+
+[ext_resource type="PackedScene" uid="uid://upv3icjb6mhu" path="res://scenes/ui/button.tscn" id="1_3qymr"]
+[ext_resource type="Script" path="res://scenes/ui/hud/player_dead_popup.gd" id="1_43ud4"]
+
+[node name="PlayerDeadPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_43ud4")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 420.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 0.454902)
+
+[node name="Base" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -30.0
+offset_right = 74.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Logo" type="VBoxContainer" parent="Base"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="DiedLabel" type="Label" parent="Base/Logo"]
+layout_mode = 2
+text = "YOU DIED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuButtons" type="VBoxContainer" parent="Base/Logo"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Restart" parent="Base/Logo/MenuButtons" instance=ExtResource("1_3qymr")]
+layout_mode = 2
+text = "RESTART"
+menu_on_press = 5
+
+[node name="Quit" parent="Base/Logo/MenuButtons" instance=ExtResource("1_3qymr")]
+layout_mode = 2
+text = "QUIT TO TITLE"
+menu_on_press = 6
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="Base/Logo/MenuButtons/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Base/Logo/MenuButtons/Quit" to="." method="_on_quit_pressed"]

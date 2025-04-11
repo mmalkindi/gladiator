@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://oohb0e1y31fg"]
+
+[ext_resource type="Script" path="res://scenes/entities/enemy0/stomp_attack.gd" id="1_1vvjx"]
+[ext_resource type="Texture2D" uid="uid://bd8os41lai1g6" path="res://assets/entities/enemy0/stomp_fist.png" id="1_5f1oc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yf2ee"]
+radius = 60.2993
+
+[node name="StompAttack" type="Area2D"]
+script = ExtResource("1_1vvjx")
+metadata/_edit_horizontal_guides_ = [-64.0]
+metadata/_edit_vertical_guides_ = [64.0]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yf2ee")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.498039)
+scale = Vector2(3.8125, 3.8125)
+texture = ExtResource("1_5f1oc")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,87 @@
+[gd_scene load_steps=12 format=3 uid="uid://wvgudeuna5n2"]
+
+[ext_resource type="Script" path="res://scenes/entities/player/player.gd" id="1_jt42w"]
+[ext_resource type="PackedScene" uid="uid://du2l7vagxie21" path="res://scenes/ui/hud/hud.tscn" id="2_vbg18"]
+[ext_resource type="PackedScene" uid="uid://dbbdxfstadmtk" path="res://scenes/ui/hud/player_dead_popup.tscn" id="3_3ysh8"]
+[ext_resource type="Texture2D" uid="uid://bbnkobg5y20ha" path="res://assets/entities/player/gladiator_idle.png" id="3_b6hqx"]
+[ext_resource type="Texture2D" uid="uid://bwrghsv4opc4o" path="res://assets/entities/player/gladiator_dead.png" id="3_qgsd7"]
+[ext_resource type="PackedScene" uid="uid://b7dwg8uobfo05" path="res://scenes/ui/hud/player_won_popup.tscn" id="4_1q6r6"]
+[ext_resource type="Texture2D" uid="uid://ilsyhjjb5pod" path="res://assets/entities/player/gladiator_walk1.png" id="4_fl75x"]
+[ext_resource type="Texture2D" uid="uid://cb7eohtyi1t7v" path="res://assets/entities/player/gladiator_walk2.png" id="5_u0jgn"]
+[ext_resource type="AudioStream" uid="uid://cb88qioalw26j" path="res://assets/entities/player/hurt.mp3" id="8_w6t66"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j8ddd"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_req1p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_qgsd7")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_b6hqx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_fl75x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_u0jgn")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 4.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_jt42w")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_j8ddd")
+
+[node name="Camera" type="Camera2D" parent="."]
+scale = Vector2(1.00245, 1)
+limit_left = 0
+limit_top = 0
+limit_right = 420
+limit_bottom = 296
+
+[node name="InteractRay" type="RayCast2D" parent="."]
+target_position = Vector2(32, 0)
+hit_from_inside = true
+collide_with_areas = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hud" parent="CanvasLayer" instance=ExtResource("2_vbg18")]
+
+[node name="PlayerDeadPopup" parent="CanvasLayer" instance=ExtResource("3_3ysh8")]
+visible = false
+
+[node name="PlayerWonPopup" parent="CanvasLayer" instance=ExtResource("4_1q6r6")]
+visible = false
+
+[node name="Animate" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -2)
+sprite_frames = SubResource("SpriteFrames_req1p")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="SFXHurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_w6t66")
+volume_db = 2.0
+
+[connection signal="dead" from="." to="." method="_on_dead"]
+[connection signal="pressed_quit_to_title" from="CanvasLayer/PlayerDeadPopup" to="." method="_on_player_dead_popup_pressed_quit_to_title"]
+[connection signal="pressed_restart_level" from="CanvasLayer/PlayerDeadPopup" to="." method="_on_player_dead_popup_pressed_restart_level"]
+[connection signal="pressed_quit_to_title" from="CanvasLayer/PlayerWonPopup" to="." method="_on_player_won_popup_pressed_quit_to_title"]
+[connection signal="pressed_restart_level" from="CanvasLayer/PlayerWonPopup" to="." method="_on_player_won_popup_pressed_restart_level"]

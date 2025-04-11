@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://wvgudeuna5n2"]
+
+[ext_resource type="Script" path="res://scenes/entities/player/player.gd" id="1_jt42w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j8ddd"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4dcny"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_jt42w")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_j8ddd")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(20, 20)
+texture = SubResource("PlaceholderTexture2D_4dcny")

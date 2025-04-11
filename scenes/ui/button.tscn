@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://upv3icjb6mhu"]
+
+[ext_resource type="Script" path="res://scenes/ui/button.gd" id="1_0nmmf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2cmg1"]
+
+[node name="Button" type="Button"]
+offset_top = 3.0
+offset_right = 56.0
+offset_bottom = 23.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_type_variation = &"FlatButton"
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.74978, 0.74978, 0.74978, 1)
+theme_override_constants/outline_size = 0
+theme_override_constants/h_separation = 8
+theme_override_font_sizes/font_size = 12
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2cmg1")
+text = "PLAY"
+flat = true
+script = ExtResource("1_0nmmf")

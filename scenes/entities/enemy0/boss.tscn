@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dhwa34ojymysn"]
+
+[ext_resource type="Script" path="res://scenes/entities/enemy0/boss.gd" id="1_4he6g"]
+[ext_resource type="Texture2D" uid="uid://bdnr1xs1fo7vw" path="res://assets/entities/enemy0/boss_sleep.png" id="2_qru48"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gyhi1"]
+size = Vector2(160, 176)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wxsfg"]
+size = Vector2(176, 200)
+
+[node name="Boss" type="StaticBody2D"]
+script = ExtResource("1_4he6g")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_gyhi1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-8.34465e-06, 4.76837e-07)
+scale = Vector2(1.04, 1.04)
+texture = ExtResource("2_qru48")
+
+[node name="DamageArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_wxsfg")
+
+[connection signal="boss_state_change" from="." to="." method="_on_boss_state_change"]
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
