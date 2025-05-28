@@ -21,6 +21,7 @@ const PHASE2_ATTACKTIMER_MAX = 2
 var current_attack: BossAttackType = BossAttackType.NONE
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var animplayer_extra = $AnimationPlayer
 
 
 func _awaken() -> void:
@@ -42,7 +43,6 @@ func _stomp() -> void:
 		randi_range(attack_area_limit_top.x, attack_area_limit_bottom.x),
 		randi_range(attack_area_limit_top.y, attack_area_limit_bottom.y)
 	)
-	print("STOMPING!")
 	var stomp_instance: Node2D = (
 		load("res://scenes/entities/enemy0/stomp_attack.tscn").instantiate()
 	)
@@ -97,7 +97,7 @@ func _change_appearance(new_state: BossState) -> void:
 
 func take_damage(damage: int):
 	health -= damage
-	print("Boss took damage! Health: ", health)
+	animplayer_extra.play("hurt")
 	# Awaken (start Phase 1) Boss if it's still sleeping
 	if state == BossState.SLEEP:
 		boss_state_change.emit(BossState.PHASE1)
