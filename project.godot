@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="gladiator"
-config/description="You just lost a bet and  you can’t pay the difference. Now, you’re forced to participate as a challenger in The Colosseum the next weekend. Some healing flasks, basic armor, and no weapons—  you are far from ready… but can you still take down the Beast?"
-config/version="1.0"
+config/description="Can you still take down the Beast?"
+config/version="1.1"
 run/main_scene="res://scenes/levels/main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
