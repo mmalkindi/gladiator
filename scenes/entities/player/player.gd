@@ -15,6 +15,7 @@ const DEFAULT_WALK_SPEED = 120
 var is_paused = false
 
 @onready var animplayer = $Animate
+@onready var animplayer_extra = $AnimationPlayer
 @onready var camera = $Camera
 @onready var interact_ray = $InteractRay
 @onready var hud = $CanvasLayer/Hud
@@ -68,6 +69,7 @@ func _physics_process(_delta: float) -> void:
 
 func take_damage(damage: int):
 	health -= damage
+	animplayer_extra.play("hurt")
 	if health <= 0:
 		health = 0
 		is_paused = true
@@ -88,7 +90,6 @@ func _heal():
 
 
 func _interact():
-	print("interact...")
 	var collider = interact_ray.get_collider()
 
 	if interact_ray.is_colliding() and collider is Interactable:

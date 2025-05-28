@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://wvgudeuna5n2"]
+[gd_scene load_steps=17 format=3 uid="uid://wvgudeuna5n2"]
 
 [ext_resource type="Script" path="res://scenes/entities/player/player.gd" id="1_jt42w"]
 [ext_resource type="PackedScene" uid="uid://du2l7vagxie21" path="res://scenes/ui/hud/hud.tscn" id="2_vbg18"]
@@ -7,10 +7,16 @@
 [ext_resource type="Texture2D" uid="uid://bwrghsv4opc4o" path="res://assets/entities/player/gladiator_dead.png" id="3_qgsd7"]
 [ext_resource type="PackedScene" uid="uid://b7dwg8uobfo05" path="res://scenes/ui/hud/player_won_popup.tscn" id="4_1q6r6"]
 [ext_resource type="Texture2D" uid="uid://ilsyhjjb5pod" path="res://assets/entities/player/gladiator_walk1.png" id="4_fl75x"]
+[ext_resource type="Shader" path="res://scenes/entities/hit_flash.gdshader" id="5_i5kn7"]
 [ext_resource type="Texture2D" uid="uid://cb7eohtyi1t7v" path="res://assets/entities/player/gladiator_walk2.png" id="5_u0jgn"]
 [ext_resource type="AudioStream" uid="uid://cb88qioalw26j" path="res://assets/entities/player/hurt.mp3" id="8_w6t66"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j8ddd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eukuh"]
+shader = ExtResource("5_i5kn7")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_req1p"]
 animations = [{
@@ -42,6 +48,43 @@ animations = [{
 "speed": 4.0
 }]
 
+[sub_resource type="Animation" id="Animation_t3ryp"]
+resource_name = "hurt"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animate:material:shader_parameter/flash_value")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_7hjj5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animate:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u58a8"]
+_data = {
+"RESET": SubResource("Animation_7hjj5"),
+"hurt": SubResource("Animation_t3ryp")
+}
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_jt42w")
 
@@ -71,6 +114,7 @@ visible = false
 visible = false
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_eukuh")
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_req1p")
 animation = &"idle"
@@ -79,6 +123,11 @@ autoplay = "idle"
 [node name="SFXHurt" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_w6t66")
 volume_db = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_u58a8")
+}
 
 [connection signal="dead" from="." to="." method="_on_dead"]
 [connection signal="pressed_quit_to_title" from="CanvasLayer/PlayerDeadPopup" to="." method="_on_player_dead_popup_pressed_quit_to_title"]
