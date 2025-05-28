@@ -62,5 +62,16 @@ layout_mode = 2
 text = "QUIT"
 menu_on_press = 2
 
+[node name="VersionLabel" type="Label" parent="."]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 0
+offset_left = 368.0
+offset_top = 352.0
+offset_right = 420.0
+offset_bottom = 360.0
+theme_override_font_sizes/font_size = 8
+text = "1.0"
+horizontal_alignment = 2
+
 [connection signal="pressed" from="Base/Logo/MenuButtons/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Base/Logo/MenuButtons/Quit" to="." method="_on_quit_pressed"]

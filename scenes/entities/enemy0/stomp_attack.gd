@@ -2,20 +2,33 @@ extends Area2D
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collission: CollisionShape2D = $CollisionShape2D
+@onready var animplayer: AnimationPlayer = $AnimationPlayer
+@onready var telegraph_timer: Timer = $TelegraphTimer
+@onready var linger_timer: Timer = $LingerTimer
+@onready var stomp_sfx: AudioStreamPlayer2D = $StompSFX
 
 
 func _ready() -> void:
 	sprite.texture = load("res://assets/entities/enemy0/attack_circle.png")
-	sprite.self_modulate.a = 0.5
 	collission.set_deferred("disabled", true)
-	await get_tree().create_timer(3).timeout
-	sprite.self_modulate.a = 1
-	collission.set_deferred("disabled", false)
-	sprite.texture = load("res://assets/entities/enemy0/stomp_fist.png")
-	await get_tree().create_timer(3).timeout
-	self.queue_free()
+	animplayer.play("telegraph")
+	telegraph_timer.start()
 
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player && !collission.disabled:
 		body.take_damage(3)
+
+
+func _on_telegraph_timer_timeout() -> void:
+	animplayer.stop(false)
+	sprite.texture = load("res://assets/entities/enemy0/stomp_fist.png")
+	collission.set_deferred("disabled", false)
+	stomp_sfx.play()
+	linger_timer.start()
+	animplayer.play("fadeout")
+
+
+func _on_linger_timer_timeout() -> void:
+	animplayer.stop(false)
+	self.queue_free()

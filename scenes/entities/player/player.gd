@@ -15,6 +15,7 @@ const DEFAULT_WALK_SPEED = 120
 var is_paused = false
 
 @onready var animplayer = $Animate
+@onready var animplayer_extra = $AnimationPlayer
 @onready var camera = $Camera
 @onready var interact_ray = $InteractRay
 @onready var hud = $CanvasLayer/Hud
@@ -24,32 +25,29 @@ var is_paused = false
 
 
 func _determine_direction():
-	var is_moving: bool = false
-	if Input.is_action_pressed("move_up"):
-		#animplayer.flip_h = true
-		is_moving = true
-		interact_ray.target_position = Vector2(0, -32)
-		velocity.y = -walk_speed
-	elif Input.is_action_pressed("move_down"):
-		#animplayer.flip_h = false
-		is_moving = true
-		interact_ray.target_position = Vector2(0, 32)
-		velocity.y = walk_speed
-	else:
-		velocity.y = 0
+	var input_vector = Vector2.ZERO
+	input_vector.x = (
+		Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	)
+	input_vector.y = (Input.get_action_strength("move_down") - Input.get_action_strength("move_up"))
+	input_vector = input_vector.normalized()
 
-	if Input.is_action_pressed("move_left"):
-		animplayer.flip_h = true
+	var is_moving: bool = false
+	if input_vector.x != 0:
 		is_moving = true
-		interact_ray.target_position = Vector2(-32, 0)
-		velocity.x = -walk_speed
-	elif Input.is_action_pressed("move_right"):
-		animplayer.flip_h = false
-		is_moving = true
-		interact_ray.target_position = Vector2(32, 0)
-		velocity.x = walk_speed
+		velocity.x = lerp(velocity.x, walk_speed * input_vector.x, 1)
+		animplayer.flip_h = input_vector.x < 0
+		interact_ray.target_position = Vector2(-32, 0) if input_vector.x < 0 else Vector2(32, 0)
 	else:
-		velocity.x = 0
+		velocity.x = lerp(velocity.x, 0.0, 1)
+
+	if input_vector.y != 0:
+		is_moving = true
+		velocity.y = lerp(velocity.y, walk_speed * input_vector.y, 1)
+		interact_ray.target_position = Vector2(0, 32) if input_vector.y < 0 else Vector2(0, -32)
+
+	else:
+		velocity.y = lerp(velocity.y, 0.0, 1)
 	_change_animation(is_moving)
 
 
@@ -71,6 +69,7 @@ func _physics_process(_delta: float) -> void:
 
 func take_damage(damage: int):
 	health -= damage
+	animplayer_extra.play("hurt")
 	if health <= 0:
 		health = 0
 		is_paused = true
@@ -91,7 +90,6 @@ func _heal():
 
 
 func _interact():
-	print("interact...")
 	var collider = interact_ray.get_collider()
 
 	if interact_ray.is_colliding() and collider is Interactable:
