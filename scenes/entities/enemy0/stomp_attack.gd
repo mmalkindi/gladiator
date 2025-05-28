@@ -26,7 +26,9 @@ func _on_telegraph_timer_timeout() -> void:
 	collission.set_deferred("disabled", false)
 	stomp_sfx.play()
 	linger_timer.start()
+	animplayer.play("fadeout")
 
 
 func _on_linger_timer_timeout() -> void:
+	animplayer.stop(false)
 	self.queue_free()

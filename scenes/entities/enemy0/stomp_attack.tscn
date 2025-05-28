@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://oohb0e1y31fg"]
+[gd_scene load_steps=9 format=3 uid="uid://oohb0e1y31fg"]
 
 [ext_resource type="Script" path="res://scenes/entities/enemy0/stomp_attack.gd" id="1_1vvjx"]
 [ext_resource type="Texture2D" uid="uid://bd8os41lai1g6" path="res://assets/entities/enemy0/stomp_fist.png" id="1_5f1oc"]
@@ -6,6 +6,21 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yf2ee"]
 radius = 60.2993
+
+[sub_resource type="Animation" id="Animation_iy4u7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.498039)]
+}
 
 [sub_resource type="Animation" id="Animation_qh42l"]
 resource_name = "telegraph"
@@ -24,8 +39,9 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.156863), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_iy4u7"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_pc8uq"]
+resource_name = "fadeout"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -33,15 +49,16 @@ tracks/0/path = NodePath("Sprite2D:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(6.06285, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0.498039)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gowab"]
 _data = {
 "RESET": SubResource("Animation_iy4u7"),
+"fadeout": SubResource("Animation_pc8uq"),
 "telegraph": SubResource("Animation_qh42l")
 }
 
